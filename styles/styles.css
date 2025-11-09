@@ -319,34 +319,72 @@ button, .submit-btn, .login-btn {
   margin-bottom: 1rem;
 }
 
+/* Modern Card UI for Students */
 .student-card {
-  background: rgba(249, 250, 251, 0.8);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(229, 231, 235, 0.5);
-  border-radius: 12px;
-  padding: 1rem;
-  margin-bottom: 0.75rem;
-  transition: all 0.3s;
-}
-
-.student-card:hover {
-  border-color: #1e3a8a;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1);
-}
-
-.student-name {
-  font-weight: 500;
-  color: #1f2937;
-  margin-bottom: 0.25rem;
-}
-
-.student-details {
-  font-size: 0.875rem;
-  color: #6b7280;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 28px 0 rgba(30,40,90,0.08);
+  border: 1.5px solid #e5e7eb;
+  padding: 2rem 2rem 1.25rem 2rem;
+  margin-bottom: 2rem;
+  transition: box-shadow .18s cubic-bezier(.4,0,.2,1), transform .18s;
+  min-height: 150px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.student-card:hover {
+  background: #f8fafc;
+  box-shadow: 0 8px 36px 0 rgba(30,60,150,0.13);
+  transform: translateY(-7px) scale(1.018);
+}
+.student-card .student-name {
+  font-family: 'Poppins','Outfit',sans-serif;
+  font-size: 1.27rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0;
+}
+.student-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 1rem;
+  color: #34394a;
+  margin-bottom: 0.5rem;
+}
+.student-details span {
+  display: flex;
+  align-items: center;
+  gap: 0.48em;
+  font-family: 'Inter','Outfit',sans-serif;
+  font-size: 1.05em;
+  font-weight: 400;
+}
+.student-details i {
+  color: #2c5282;
+  opacity: 0.80;
+  font-size: 1.1em;
+}
+
+.students-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
+  gap: 2.1rem 2.3rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .students-container {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .student-card {
+    padding: 1.1rem 1rem 1rem 1rem;
+    margin-bottom: 1.1rem;
+    min-height: 110px;
+  }
 }
 
 .nav-item {
