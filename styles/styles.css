@@ -662,3 +662,71 @@ button, .submit-btn, .login-btn {
     grid-template-columns: 1fr;
   }
 }
+
+/* Adjusted date picker: hide native icon visually, but keep it clickable, and layered arrow on top */
+#studentsDatePicker {
+  font-family: 'Poppins', 'Outfit', sans-serif;
+  font-size: 80%;
+  border-radius: 14px;
+  border: 1.5px solid #e5e7eb;
+  padding: 0.7rem 1rem;
+  background: rgba(255,255,255,0.94);
+  color: #1f2937;
+  box-shadow: 0 2px 8px rgba(30, 40, 90, 0.07);
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+  margin-bottom: 0.4rem;
+  position: relative;
+  z-index: 2;
+}
+
+#studentsDatePicker:focus {
+  border: 1.5px solid #1e3a8a;
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.14);
+  background: #fff;
+}
+
+#studentsDatePicker::-webkit-input-placeholder {
+  color: #9ca3af;
+}
+#studentsDatePicker::-moz-placeholder {
+  color: #9ca3af;
+}
+#studentsDatePicker:-ms-input-placeholder {
+  color: #9ca3af;
+}
+#studentsDatePicker::placeholder {
+  color: #9ca3af;
+}
+
+/* Visually hide calendar indicator, but keep it functional and clickable */
+#studentsDatePicker::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 10px;
+  cursor: pointer;
+}
+
+/* Always keep the field type as date so mouse interaction is supported */
+.datepicker-wrapper {
+  position: relative;
+  width: fit-content;
+  max-width: 220px;
+}
+.datepicker-arrow {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 1.15em;
+  z-index: 3;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+.datepicker-wrapper:focus-within .datepicker-arrow {
+  color: #1e3a8a;
+}
+
+#studentsDatePicker[disabled] + .datepicker-arrow {
+  color: #d1d5db;
+}
