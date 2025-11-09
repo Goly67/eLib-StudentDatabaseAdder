@@ -329,7 +329,7 @@ class StudentRegistrationSystem {
          <div class=\"student-name\">${student.name}</div>
          <div class=\"student-details\">
            <span><i class=\"fas fa-id-card\"></i> ${student.studentNumber}</span>
-           <span><i class=\"fas fa-book\"></i> ${this.getShortStrand(student.strand)}</span>
+           <span><i class=\"fas fa-book\"></i> ${student.strand}</span>
            <span><i class=\"fas fa-layer-group\"></i> ${student.grade}</span>
          </div>
         </div>
@@ -357,7 +357,7 @@ class StudentRegistrationSystem {
                 <div class="student-name">${student.name}</div>
                 <div class="student-details">
                     <span><i class="fas fa-id-card"></i> ${student.studentNumber}</span>
-                    <span><i class="fas fa-book"></i> ${this.getShortStrand(student.strand)}</span>
+                    <span><i class="fas fa-book"></i> ${student.strand}</span>
                     <span><i class="fas fa-layer-group"></i> ${student.grade}</span>
                 </div>
             </div>
