@@ -27,6 +27,28 @@ class StudentRegistrationSystem {
     this.auth = auth;
     this.initializeAuth();
     this.initializeEventListeners();
+    this.studentsByDate = {};
+    this.todayStr = this.getTodayString();
+    this.setupDatePicker();
+  }
+
+  // Add: Helper to get `yyyy-mm-dd` for current day
+  getTodayString() {
+    const d = new Date();
+    return d.toISOString().split('T')[0];
+  }
+
+  // Setup the calendar date picker logic
+  setupDatePicker() {
+    const picker = document.getElementById('studentsDatePicker');
+    if (!picker) return;
+    const todayStr = this.getTodayString();
+    picker.value = todayStr;
+    picker.max = todayStr;
+    picker.addEventListener('change', (e) => {
+        const selDate = e.target.value;
+        this.renderStudentsForDay(selDate);
+    });
   }
 
   initializeAuth() {
@@ -168,6 +190,7 @@ class StudentRegistrationSystem {
       studentNumber: formData.get("studentNumber").trim(),
       strand: formData.get("strand"),
       grade: formData.get("grade"),
+      dateAdded: this.getTodayString(), // Save date for registration!
     }
 
     console.log("[v0] Form submission data:", studentData)
@@ -185,7 +208,9 @@ class StudentRegistrationSystem {
     try {
       await this.saveStudentToFirebase(studentData)
 
-      this.students.unshift({ ...studentData, dateAdded: new Date().toISOString() })
+      this.students.unshift({ ...studentData }) // dateAdded will exist
+      this.buildStudentsByDate()
+      this.renderStudentsForDay(studentData.dateAdded) // Update today's tab
       this.updateStudentsList()
       this.updateStudentCount()
       this.clearForm()
@@ -217,25 +242,69 @@ class StudentRegistrationSystem {
 
   async loadStudentsFromFirebase() {
     try {
-      const studentsRef = ref(this.database, "Students")
-      const snapshot = await get(studentsRef)
+      const studentsRef = ref(this.database, "Students");
+      const snapshot = await get(studentsRef);
 
       if (snapshot.exists()) {
-        const studentsData = snapshot.val()
-        this.students = Object.keys(studentsData).map((studentNumber) => ({
-          ...studentsData[studentNumber],
-          dateAdded: new Date().toISOString(),
-        }))
-        this.updateStudentsList()
-        this.updateStudentCount()
-        this.showToast("Student data loaded successfully!", "success")
+        const studentsData = snapshot.val();
+        // Spread dateAdded field if present, or fallback to unknown
+        this.students = Object.keys(studentsData).map((studentNumber) => {
+          const obj = studentsData[studentNumber];
+          return {
+            ...obj,
+            dateAdded: obj.dateAdded || this.getTodayString(),
+          };
+        });
+        this.buildStudentsByDate();
+        this.renderStudentsForDay(this.getTodayString()); // Default: today
+        this.updateStudentCount();
+        this.updateStudentsList(); // (full unfiltered list)
+        this.showToast("Student data loaded successfully!", "success");
       } else {
-        this.showToast("No existing student data found", "info")
+        this.students = [];
+        this.studentsByDate = {};
+        this.renderStudentsForDay(this.getTodayString());
+        this.updateStudentCount();
+        this.showToast("No existing student data found", "info");
       }
     } catch (error) {
-      console.error("Error loading students:", error)
-      this.showToast("Error loading student data: " + error.message, "error")
+      console.error("Error loading students:", error);
+      this.showToast("Error loading student data: " + error.message, "error");
     }
+  }
+
+  // Map (cache) students grouped by date
+  buildStudentsByDate() {
+    this.studentsByDate = {};
+    for (const student of this.students) {
+      const d = (student.dateAdded||"").substring(0, 10); // yyyy-mm-dd
+      if (!this.studentsByDate[d]) this.studentsByDate[d] = [];
+      this.studentsByDate[d].push(student);
+    }
+  }
+
+  // When calendar/date selected or after a new registration, show per-day students
+  renderStudentsForDay(dayStr = "") {
+    dayStr = dayStr || this.getTodayString();
+    const students = this.studentsByDate[dayStr] || [];
+    const container = document.getElementById("studentsForDayContainer");
+    if (!container) return;
+    if (students.length === 0) {
+      container.innerHTML = `<div class=\"empty-state\"><i class=\"fas fa-users\"></i><p>No students registered for this day</p></div>`;
+      return;
+    }
+    container.innerHTML = students
+      .slice(0, 10)
+      .map((student) => `
+        <div class=\"student-card\">
+         <div class=\"student-name\">${student.name}</div>
+         <div class=\"student-details\">
+           <span><i class=\"fas fa-id-card\"></i> ${student.studentNumber}</span>
+           <span><i class=\"fas fa-book\"></i> ${this.getShortStrand(student.strand)}</span>
+           <span><i class=\"fas fa-layer-group\"></i> ${student.grade}</span>
+         </div>
+        </div>
+      `).join("");
   }
 
   updateStudentsList() {
@@ -290,16 +359,15 @@ class StudentRegistrationSystem {
   }
 
   async saveStudentToFirebase(studentData) {
-    const studentRef = ref(this.database, `Students/${studentData.studentNumber}`)
-
+    const studentRef = ref(this.database, `Students/${studentData.studentNumber}`);
     const firebaseStudentData = {
       name: studentData.name,
       studentNumber: studentData.studentNumber,
       strand: studentData.strand,
       grade: studentData.grade,
-      sessions: {}, // Initialize empty sessions object as per Firebase structure
-    }
-
+      sessions: {},
+      dateAdded: studentData.dateAdded || this.getTodayString()
+    };
     console.log("[v0] Saving to Firebase:", firebaseStudentData)
     await set(studentRef, firebaseStudentData)
     console.log("[v0] Successfully saved to Firebase")
