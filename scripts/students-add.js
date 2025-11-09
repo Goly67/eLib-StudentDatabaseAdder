@@ -281,6 +281,35 @@ class StudentRegistrationSystem {
       if (!this.studentsByDate[d]) this.studentsByDate[d] = [];
       this.studentsByDate[d].push(student);
     }
+    this.renderStudentsPerDaySummary();
+  }
+
+  // Render summary under the calendar: x students per date
+  renderStudentsPerDaySummary() {
+    const sumDiv = document.getElementById("studentsPerDaySummary");
+    if (!sumDiv) return;
+    const dates = Object.keys(this.studentsByDate).sort().reverse(); // latest first
+    if (dates.length === 0) {
+      sumDiv.innerHTML = '<p style="color:#6b7280;font-size:0.95em;padding:0.2em 0;">No registration activity yet.</p>';
+      return;
+    }
+    // Find which date has the max count for highlight
+    let maxCount = 0, maxDate = '';
+    for(const d of dates) { if(this.studentsByDate[d].length > maxCount) { maxCount = this.studentsByDate[d].length; maxDate = d; } }
+    sumDiv.innerHTML = dates.map(d => {
+      const n = this.studentsByDate[d].length;
+      const c = d === maxDate ? 'highlight-max' : '';
+      return `<div class="${c}" data-summary-date="${d}" title="Show students for this date"><b>${d}</b>: <span style=\"background:#1e3a8a0b;padding:2px 9px 2px 8px;border-radius:7px;font-variant-numeric:tabular-nums;color:#1e3a8a;font-weight:500;\">${n}</span> student${n===1?"":"s"}</div>`;
+    }).join("");
+    // Add click listeners: jump to date & update calendar
+    Array.from(sumDiv.querySelectorAll('[data-summary-date]')).forEach(div => {
+      div.addEventListener('click', (e) => {
+        const d = div.getAttribute('data-summary-date');
+        const picker = document.getElementById('studentsDatePicker');
+        if (picker) picker.value = d;
+        this.renderStudentsForDay(d);
+      });
+    });
   }
 
   // When calendar/date selected or after a new registration, show per-day students

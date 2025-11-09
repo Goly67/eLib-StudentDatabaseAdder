@@ -730,3 +730,63 @@ button, .submit-btn, .login-btn {
 #studentsDatePicker[disabled] + .datepicker-arrow {
   color: #d1d5db;
 }
+
+.student-grid-boxed-2col {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+#studentsPerDaySummaryBox {
+  min-width: 200px;
+  max-width: 265px;
+  width: 100%;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.97);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(30, 40, 90, 0.07);
+  padding: 1.1em 1em;
+  margin-top: 0.7em;
+  margin-bottom: 0.8em;
+  border: 1px solid #e5e7eb;
+}
+.summary-listbox {
+  max-height: 360px;
+  overflow-y: auto;
+  font-family: 'Inter', 'Outfit', sans-serif;
+  font-size: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: .15em;
+}
+.summary-listbox div {
+  border-radius: 7px;
+  padding: 6px 10px;
+  margin-bottom: 3px;
+  cursor: pointer;
+  transition: background 0.14s, color 0.14s;
+}
+.summary-listbox div:hover {
+  background: #fef3c7;
+  color: #92400e;
+}
+.summary-listbox .highlight-max {
+  background: #1e3a8a1a !important;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+@media (max-width: 800px) {
+  .student-grid-boxed-2col {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  #studentsPerDaySummaryBox {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
