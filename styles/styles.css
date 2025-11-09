@@ -309,8 +309,9 @@ button, .submit-btn, .login-btn {
 .students-container {
   flex: 1 1 0;
   overflow-y: auto;
+  overflow-x: hidden;
   min-height: 0;
-  margin-top: 0.7rem;
+  margin-top: 0.25rem;
   margin-bottom: 0.1rem;
   padding: 0;
   scrollbar-width: thin;
@@ -354,7 +355,7 @@ button, .submit-btn, .login-btn {
   box-shadow: 0 6px 20px 0 rgba(30, 58, 138, 0.10);
   border-color: #1e40af15;
   background: #f7fafd;
-  transform: translateY(-2.5px) scale(1.012);
+  /* Remove transform:... to prevent scroll on hover */
 }
 .student-name {
   font-weight: 600;
