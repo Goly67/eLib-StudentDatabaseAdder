@@ -641,3 +641,24 @@ button, .submit-btn, .login-btn {
     padding: 1.25rem 2.5rem;
   }
 }
+
+/* Student grid box: responsive 2-cols, 1-col mobile */
+.student-grid-boxed #studentsForDayContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.student-grid-boxed .student-card {
+  margin-bottom: 0; /* let grid gap handle spacing */
+  min-width: 0;
+  box-shadow: 0 4px 12px 0 rgba(30,40,90,0.07);
+}
+
+/* On mobile, fall back to 1 col for the grid card section */
+@media (max-width: 600px) {
+  .student-grid-boxed #studentsForDayContainer {
+    grid-template-columns: 1fr;
+  }
+}
