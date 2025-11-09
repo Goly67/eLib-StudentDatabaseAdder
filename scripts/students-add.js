@@ -128,36 +128,27 @@ class StudentRegistrationSystem {
     let options = []
     console.log("[v0] Checking strand value:", `"${selectedStrand}"`)
 
-    if (selectedStrand === "CA") {
-      console.log("[v0] Matched CA - Culinary Arts")
-      options = ["Grade 11", "Grade 12"]
-    } else if (selectedStrand === "GAS") {
-      console.log("[v0] Matched GAS - General Academic Strand")
-      options = ["Grade 11", "Grade 12"]
-    } else if (selectedStrand === "HUMSS") {
-      console.log("[v0] Matched HUMSS")
-      options = ["Grade 11", "Grade 12"]
-    } else if (selectedStrand === "ITMAWD") {
-      console.log("[v0] Matched ITMAWD")
-      options = ["Grade 11", "Grade 12"]
-    } else if (selectedStrand === "STEM") {
-      console.log("[v0] Matched STEM")
-      options = ["Grade 11", "Grade 12"]
-    } else if (selectedStrand === "TO") {
-      console.log("[v0] Matched TO")
-      options = ["Grade 11", "Grade 12"]
-    } else if (selectedStrand === "BSHM") {
-      console.log("[v0] Matched BSHM")
-      options = ["1st Year", "2nd Year", "3rd Year", "4th Year"]
-    } else if (selectedStrand === "BSCPE") {
-      console.log("[v0] Matched BSCPE")
-      options = ["1st Year", "2nd Year", "3rd Year", "4th Year"]
-    } else if (selectedStrand === "BSIT") {
-      console.log("[v0] Matched BSIT")
-      options = ["1st Year", "2nd Year", "3rd Year", "4th Year"]
+    if (selectedStrand === "CA - Culinary Arts") {
+      options = ["11", "12"];
+    } else if (selectedStrand === "GAS - General Academic") {
+      options = ["11", "12"];
+    } else if (selectedStrand === "HUMSS - Humanities and Social Sciences") {
+      options = ["11", "12"];
+    } else if (selectedStrand === "ITMAWD - IT in Mobile App and Web Development") {
+      options = ["11", "12"];
+    } else if (selectedStrand === "STEM - Science, Technology, Engineering, and Mathematics") {
+      options = ["11", "12"];
+    } else if (selectedStrand === "TO - Tourism Operations") {
+      options = ["11", "12"];
+    } else if (selectedStrand === "BSHM - Bachelor of Science in Hospitality Management") {
+      options = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
+    } else if (selectedStrand === "BSCPE - Bachelor of Science in Computer Engineering") {
+      options = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
+    } else if (selectedStrand === "BSIT - Bachelor of Science in Information Technology") {
+      options = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
     } else {
-      console.log("[v0] NO MATCH FOUND for strand:", selectedStrand)
-      console.log("[v0] Available strands: CA, GAS, HUMSS, ITMAWD, STEM, TO, BSHM, BSCPE, BSIT")
+      // no match found
+      options = [];
     }
 
     console.log("[v0] Grade options to add:", options)
