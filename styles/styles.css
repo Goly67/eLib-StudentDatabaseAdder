@@ -286,8 +286,6 @@ button, .submit-btn, .login-btn {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.8rem;
-  padding-top: 0.8rem;
   margin-bottom: 0.8rem;
   padding-bottom: 0.8rem;
   border-bottom: 1px solid #e5e7eb;
@@ -295,6 +293,8 @@ button, .submit-btn, .login-btn {
 
 .list-header h3 {
   font-size: 1.25rem;
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.4rem;
   font-weight: 600;
   color: #1f2937;
 }
